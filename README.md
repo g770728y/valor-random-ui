@@ -1,8 +1,6 @@
 # valor-random-ui
 
-> 工作中写的 不成体系 的ui组件, 有少量复用机会
-
-[![NPM](https://img.shields.io/npm/v/valor-random-ui.svg)](https://www.npmjs.com/package/valor-random-ui) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+> 工作中写的 不成体系 的 ui 组件, 有少量复用机会
 
 ## Install
 
@@ -10,21 +8,23 @@
 npm install --save valor-random-ui
 ```
 
-## Usage
+## 组件介绍
 
-```tsx
-import * as React from 'react'
+### FlatTree
 
-import MyComponent from 'valor-random-ui'
+只需要数据库返回如下数据: \
 
-class Example extends React.Component {
-  render () {
-    return (
-      <MyComponent />
-    )
-  }
-}
 ```
+[{id, level, content} , {id, level, content}]
+( 无需pid, children )
+```
+
+然后就可以使用 FlatTree 构建出树来.
+在视效上, FlatTree 相当于一个列表, 通过缩进来展示树
+ 由于`FlatTree`组件, 为一个纯展示组件 ( 自身不保持状态 )
+为方便起见, 提供了以下`helper`方法:
+
+-
 
 ## License
 

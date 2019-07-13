@@ -1,0 +1,20 @@
+.valor-flat-tree {
+  font-size: 14px;
+}
+
+.valor-flat-tree-item {
+  height: 2em;
+  line-height: 2em;
+  color: #999;
+}
+.valor-flat-tree-item:hover {
+  background: #e6f7ff;
+}
+
+.valor-flat-tree-item-selected {
+  color: #fff;
+  background: #1ea7fd;
+}
+.valor-flat-tree-item-selected:hover {
+  background: #1ea7fd;
+}

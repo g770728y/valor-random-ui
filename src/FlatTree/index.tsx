@@ -2,6 +2,7 @@ import * as React from 'react';
 import './index.css';
 import { TreeNode } from './index.interface';
 import { isLeaf, getHiddenIdsForCollapsed } from './helpers/common';
+import { FlatTreeHelper } from './helpers';
 
 interface FlatTreeNodeProps {
   data: TreeNode;
@@ -70,3 +71,4 @@ const FlatTree: React.FC<FlatTreeProps> = ({
 };
 
 export default FlatTree;
+export { FlatTreeHelper };

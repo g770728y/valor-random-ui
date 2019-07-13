@@ -22,9 +22,5 @@ import * as React from 'react';
 //   }
 // }
 
-import FlatTree from './FlatTree';
-export default FlatTree;
-
-import { moveTreeNodeUp, moveTreeNodeDown } from './FlatTree/helpers/move';
-
-import { moveTreeNodeLeft, moveTreeNodeRight } from './FlatTree/helpers/level';
+import FlatTree, { FlatTreeHelper } from './FlatTree';
+export { FlatTree, FlatTreeHelper };

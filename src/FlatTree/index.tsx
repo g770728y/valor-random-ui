@@ -3,19 +3,26 @@ import './index.css';
 import { TreeNode } from './index.interface';
 import { isLeaf, getHiddenIdsForCollapsed } from './helpers/common';
 import { FlatTreeHelper } from './helpers';
+import { IoMdArrowDropright, IoMdArrowDropdown } from 'react-icons/io';
 
 interface FlatTreeNodeProps {
   data: TreeNode;
   isLeaf: boolean;
   isSelected: boolean;
+  isCollapsed: boolean;
   onSelect: (id: any) => void;
+  onCollapse?: (id: any) => void;
+  onExpand?: (id: any) => void;
 }
 
 const FlatTreeNode_: React.FC<FlatTreeNodeProps> = ({
   data,
   isLeaf,
   isSelected,
-  onSelect
+  isCollapsed,
+  onSelect,
+  onCollapse,
+  onExpand
 }) => {
   console.log('render node');
   const onClick = React.useCallback(() => {
@@ -32,7 +39,28 @@ const FlatTreeNode_: React.FC<FlatTreeNodeProps> = ({
       style={{ paddingLeft: `${data.level}em` }}
       onClick={onClick}
     >
-      {data.content + `${isLeaf ? 'leaf' : ''}`}
+      {onExpand && !isLeaf && isCollapsed && (
+        <span
+          style={{
+            display: 'inline-block',
+            height: 28,
+            width: 28,
+            marginRight: 15
+          }}
+          onClick={() => onExpand(data.id)}
+        >
+          <IoMdArrowDropright />
+        </span>
+      )}
+      {onCollapse && !isLeaf && !isCollapsed && (
+        <span
+          className="valor-flat-tree-item-container"
+          onClick={() => onCollapse(data.id)}
+        >
+          <IoMdArrowDropdown />
+        </span>
+      )}
+      {data.content}
     </div>
   );
 };
@@ -44,12 +72,16 @@ interface FlatTreeProps {
   collapsedIds: any[];
   selectedId?: any;
   onSelect: (id: any) => void;
+  onCollapse?: (id: any) => void;
+  onExpand?: (id: any) => void;
 }
 const FlatTree: React.FC<FlatTreeProps> = ({
   data,
   selectedId,
   collapsedIds,
-  onSelect
+  onSelect,
+  onCollapse,
+  onExpand
 }) => {
   const hiddenIds = getHiddenIdsForCollapsed(data, collapsedIds);
   const items = data.map(item => {
@@ -62,8 +94,11 @@ const FlatTree: React.FC<FlatTreeProps> = ({
         key={item.id}
         data={item}
         isSelected={selectedId === id}
-        onSelect={onSelect}
         isLeaf={isLeaf(data, item.id)}
+        isCollapsed={collapsedIds.includes(id)}
+        onSelect={onSelect}
+        onCollapse={onCollapse}
+        onExpand={onExpand}
       />
     );
   });

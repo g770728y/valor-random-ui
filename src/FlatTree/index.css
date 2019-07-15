@@ -6,15 +6,24 @@
   height: 2em;
   line-height: 2em;
   color: #999;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 }
 .valor-flat-tree-item:hover {
   background: #e6f7ff;
 }
 
+.valor-flat-tree-item-container {
+  width: 20px;
+  text-align: center;
+  margin-right: 8px;
+}
+.valor-flat-tree-item-container:hover {
+  cursor: pointer;
+}
+
 .valor-flat-tree-item-selected {
   color: #fff;
-  background: #1ea7fd;
-}
-.valor-flat-tree-item-selected:hover {
   background: #1ea7fd;
 }

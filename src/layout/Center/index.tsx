@@ -1,12 +1,10 @@
 import * as React from 'react';
 
-interface Props {
+type Props = {
   inline?: boolean;
   width?: string | number;
   height?: string | number;
-  style?: React.CSSProperties;
-  className?: string;
-}
+} & React.HTMLAttributes<HTMLElement>;
 
 const Center: React.FC<Props> = ({
   inline = true,
@@ -14,10 +12,12 @@ const Center: React.FC<Props> = ({
   height = 'auto',
   style,
   className,
-  children
+  children,
+  ...props
 }) => {
   return (
     <div
+      {...props}
       className={className}
       style={{
         ...style,

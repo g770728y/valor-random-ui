@@ -4,8 +4,9 @@ import { TreeNode } from './index.interface';
 import { isLeaf, getHiddenIdsForCollapsed } from './helpers/common';
 import { FlatTreeHelper } from './helpers';
 import { IoMdArrowDropright, IoMdArrowDropdown } from 'react-icons/io';
+import { Center } from '../layout';
 
-interface FlatTreeNodeProps {
+type FlatTreeNodeProps = {
   data: TreeNode;
   isLeaf: boolean;
   isSelected: boolean;
@@ -13,7 +14,7 @@ interface FlatTreeNodeProps {
   onSelect: (id: any) => void;
   onCollapse?: (id: any) => void;
   onExpand?: (id: any) => void;
-}
+} & React.HTMLAttributes<HTMLElement>;
 
 const FlatTreeNode_: React.FC<FlatTreeNodeProps> = ({
   data,
@@ -30,35 +31,38 @@ const FlatTreeNode_: React.FC<FlatTreeNodeProps> = ({
       onSelect(data.id);
     }
   }, []);
+  const props = {
+    style: {
+      position: 'absolute',
+      left: `${data.level - 1}em`,
+      cursor: 'pointer'
+    } as React.CSSProperties,
+    width: 16,
+    height: '100%',
+    inline: true
+  };
   return (
     <div
       className={`valor-flat-tree-item ${
         isSelected ? 'valor-flat-tree-item-selected' : ''
       }`}
       key={data.id}
-      style={{ paddingLeft: `${data.level}em` }}
+      style={{
+        position: 'relative',
+        cursor: 'pointer',
+        paddingLeft: `${data.level + 0.3}em`
+      }}
       onClick={onClick}
     >
       {onExpand && !isLeaf && isCollapsed && (
-        <span
-          style={{
-            display: 'inline-block',
-            height: 28,
-            width: 28,
-            marginRight: 15
-          }}
-          onClick={() => onExpand(data.id)}
-        >
+        <Center {...props} onClick={() => onExpand(data.id)}>
           <IoMdArrowDropright />
-        </span>
+        </Center>
       )}
       {onCollapse && !isLeaf && !isCollapsed && (
-        <span
-          className="valor-flat-tree-item-container"
-          onClick={() => onCollapse(data.id)}
-        >
+        <Center {...props} onClick={() => onCollapse(data.id)}>
           <IoMdArrowDropdown />
-        </span>
+        </Center>
       )}
       {data.content}
     </div>

@@ -2,11 +2,16 @@ import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import FlatTree from '.';
 import { TreeNode } from './index.interface';
-import { moveTreeNodeUp, moveTreeNodeDown } from './helpers/move';
+import {
+  moveTreeNodeUp,
+  moveTreeNodeDown,
+  moveTreeNodeUp_array,
+  moveTreeNodeDown_array
+} from './helpers/move';
 import { moveTreeNodeLeft, moveTreeNodeRight } from './helpers/level';
 import { deleteTreeNode } from './helpers/delete';
 import { createTreeNode } from './helpers/create';
-import { nextArrayId, reAppend } from 'app-utils';
+import { nextArrayId, reAppend, array2idTree_byLevel } from 'app-utils';
 import { getNextNode } from './helpers/common';
 
 const tree: TreeNode[] = [
@@ -26,10 +31,10 @@ const DefaultTree: React.FC = () => {
   const [data, setData] = React.useState(tree);
   const [collapsedIds, setCollapsedIds] = React.useState<number[]>([]);
   const onUp = () => {
-    setData(moveTreeNodeUp(data, selectedId));
+    setData(moveTreeNodeUp_array(data, selectedId) as any);
   };
   const onDown = () => {
-    setData(moveTreeNodeDown(data, selectedId));
+    setData(moveTreeNodeDown_array(data, selectedId) as any);
   };
   const onLeft = () => {
     setData(moveTreeNodeLeft(data, selectedId));

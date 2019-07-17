@@ -1,6 +1,4 @@
 import {
-  findIndexFrom,
-  min,
   array2idTree_byLevel,
   swapByProp,
   TreeNode as NTreeNode,
@@ -10,8 +8,7 @@ import {
 import { TreeNode } from '../index.interface';
 import { getLastDecendantIndex, isLeaf } from './common';
 
-export function moveTreeNodeUp(data: TreeNode[], id: any) {
-  const tree = array2idTree_byLevel(data);
+export function moveTreeNodeUp(tree: NTreeNode, id: any) {
   let needMoveToParentBrother = false;
 
   function _moveUp(children: NTreeNode[], id: any): NTreeNode[] {
@@ -23,7 +20,6 @@ export function moveTreeNodeUp(data: TreeNode[], id: any) {
       }));
     } else if (index > 0) {
       const prevNode = children[index - 1];
-      console.log(children, index, 'id', id, prevNode.id);
       return swapByProp(children, 'id', id, prevNode.id);
     } else {
       needMoveToParentBrother = true;
@@ -32,16 +28,12 @@ export function moveTreeNodeUp(data: TreeNode[], id: any) {
   }
 
   let newTree = { ...tree, children: _moveUp(tree.children, id) };
-  if (needMoveToParentBrother) {
-    newTree = _moveToParentPrevBrotherEffect(newTree, id);
-    return idTree2Array(newTree);
-  } else {
-    return idTree2Array(newTree);
-  }
+  return needMoveToParentBrother
+    ? moveToParentPrevBrotherEffect(newTree, id)
+    : newTree;
 }
 
-export function moveTreeNodeDown(data: TreeNode[], id: any) {
-  const tree = array2idTree_byLevel(data);
+export function moveTreeNodeDown(tree: NTreeNode, id: any) {
   let needMoveToParentBrother = false;
 
   function _moveDown(children: NTreeNode[], id: any): NTreeNode[] {
@@ -60,16 +52,27 @@ export function moveTreeNodeDown(data: TreeNode[], id: any) {
     }
   }
   let newTree = { ...tree, children: _moveDown(tree.children, id) };
-  if (needMoveToParentBrother) {
-    newTree = _moveToParentNextBrotherEffect(newTree, id);
-    return idTree2Array(newTree);
-  } else {
-    return idTree2Array(newTree);
-  }
+  return needMoveToParentBrother
+    ? moveToParentNextBrotherEffect(newTree, id)
+    : newTree;
+}
+
+// 接收数组, 返回数组(用level表示层级)
+export function moveTreeNodeUp_array(data: TreeNode[], id: any) {
+  const tree = array2idTree_byLevel(data);
+  const newTree = moveTreeNodeUp(tree, id);
+  return idTree2Array(newTree);
+}
+
+// 接收数组, 返回数组(level表示层级)
+export function moveTreeNodeDown_array(data: TreeNode[], id: any) {
+  const tree = array2idTree_byLevel(data);
+  const newTree = moveTreeNodeDown(tree, id);
+  return idTree2Array(newTree);
 }
 
 // 注意: 这是一个副作用方法!!! 它修改了newTree
-function _moveToParentNextBrotherEffect(newTree: NTreeNode, id: any) {
+function moveToParentNextBrotherEffect(newTree: NTreeNode, id: any) {
   const node = findTreeNode(newTree, node => node.id === id);
   const pNode = findTreeNode(newTree, ({ id }) => id === node!.pid);
   const nodeIndex = pNode
@@ -92,7 +95,7 @@ function _moveToParentNextBrotherEffect(newTree: NTreeNode, id: any) {
 }
 
 // 注意: 这是一个副作用方法!!! 它修改了newTree
-function _moveToParentPrevBrotherEffect(newTree: NTreeNode, id: any) {
+function moveToParentPrevBrotherEffect(newTree: NTreeNode, id: any) {
   const node = findTreeNode(newTree, node => node.id === id);
   const pNode = findTreeNode(newTree, ({ id }) => id === node!.pid);
   const nodeIndex = pNode
@@ -119,7 +122,6 @@ export function moveTreeNodeUpOneStep(
   id: any,
   span: number = 1
 ) {
-  console.log('span: ', span);
   const currIndex = data.findIndex(it => it.id === id);
   if (currIndex <= 0 || currIndex > data.length - 1) return data;
   const currNode = data[currIndex];
@@ -158,7 +160,6 @@ export function moveTreeNodeDownOneStep(
   // 当前节点的子孙节点是最后一个节点, 不可移动
   const lastDecendantIndex = getLastDecendantIndex(data, currIndex);
 
-  console.log(lastDecendantIndex);
   if (lastDecendantIndex === data.length - 1) return data;
 
   const nextNode = data[lastDecendantIndex + span];
@@ -172,8 +173,6 @@ export function moveTreeNodeDownOneStep(
         ? it.level - (currNode.level - nextNode.level)
         : it.level - (currNode.level - nextNode.level) + 1
     }));
-
-  console.log(currIndex, lastDecendantIndex + 1, lastDecendantIndex + span + 1);
 
   return [
     ...data.slice(0, currIndex),

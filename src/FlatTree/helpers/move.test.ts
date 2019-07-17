@@ -2,21 +2,21 @@ import { TreeNode } from '../index.interface';
 import {
   moveTreeNodeUpOneStep,
   moveTreeNodeDownOneStep,
-  moveTreeNodeUp,
-  moveTreeNodeDown
+  moveTreeNodeUp_array,
+  moveTreeNodeDown_array
 } from './move';
 
-describe('onTreeNodeUp', () => {
+describe('onTreeNodeUp_array', () => {
   const tree1: TreeNode[] = [
     { id: 1, level: 1, content: '1' },
     { id: 2, level: 2, content: '2' }
   ];
 
   it('同级内的第一个节点不可上移', () =>
-    expect(moveTreeNodeUp(tree1, 1)).toEqual(tree1));
+    expect(moveTreeNodeUp_array(tree1, 1)).toEqual(tree1));
 
   it('index=0的子节点无法上移', () =>
-    expect(moveTreeNodeUp(tree1, 2)).toEqual(tree1));
+    expect(moveTreeNodeUp_array(tree1, 2)).toEqual(tree1));
 
   const tree2: TreeNode[] = [
     { id: 1, level: 1, content: '1' },
@@ -24,7 +24,7 @@ describe('onTreeNodeUp', () => {
     { id: 3, level: 2, content: '2' }
   ];
   it('index>0的子节点可以上移', () =>
-    expect(moveTreeNodeUp(tree2, 3)).toEqual([
+    expect(moveTreeNodeUp_array(tree2, 3)).toEqual([
       { id: 1, level: 1, content: '1' },
       { id: 3, level: 2, content: '2' },
       { id: 2, level: 2, content: '2' }
@@ -38,7 +38,7 @@ describe('onTreeNodeUp', () => {
   ];
 
   it('子节点上移时,会跳过上面兄弟节点的子孙节点', () =>
-    expect(moveTreeNodeUp(tree3, 3)).toEqual([
+    expect(moveTreeNodeUp_array(tree3, 3)).toEqual([
       { id: 1, level: 1, content: '1' },
       { id: 3, level: 2, content: '2' },
       { id: 2, level: 2, content: '2' },
@@ -53,7 +53,7 @@ describe('onTreeNodeUp', () => {
   ];
 
   it('子节点上移时, 会带上自己的子孙节点', () =>
-    expect(moveTreeNodeUp(tree4, 3)).toEqual([
+    expect(moveTreeNodeUp_array(tree4, 3)).toEqual([
       { id: 1, level: 1, content: '1' },
       { id: 3, level: 2, content: '2' },
       { id: 4, level: 3, content: '2' },
@@ -67,7 +67,7 @@ describe('onTreeNodeUp', () => {
     { id: 4, level: 2, content: '2' }
   ];
   it('当前节点是父节点的第一个节点, 将上移到父的兄节点内', () => {
-    expect(moveTreeNodeUp(tree5, 4)).toEqual([
+    expect(moveTreeNodeUp_array(tree5, 4)).toEqual([
       { id: 1, level: 1, content: '1' },
       { id: 2, level: 2, content: '2' },
       { id: 4, level: 2, content: '2' },
@@ -76,14 +76,14 @@ describe('onTreeNodeUp', () => {
   });
 });
 
-describe('onTreeNodeDown', () => {
+describe('onTreeNodeDown_array', () => {
   const tree1: TreeNode[] = [
     { id: 1, level: 1, content: '10' },
     { id: 2, level: 2, content: '20' }
   ];
 
   it('index=同级length-1的节点(最后一个)不可下移', () =>
-    expect(moveTreeNodeDown(tree1, 1)).toEqual(tree1));
+    expect(moveTreeNodeDown_array(tree1, 1)).toEqual(tree1));
 
   const tree2: TreeNode[] = [
     { id: 1, level: 1, content: '1' },
@@ -91,7 +91,7 @@ describe('onTreeNodeDown', () => {
     { id: 3, level: 2, content: '2' }
   ];
   it('index<同级length-1的子节点可以下移', () =>
-    expect(moveTreeNodeDown(tree2, 2)).toEqual([
+    expect(moveTreeNodeDown_array(tree2, 2)).toEqual([
       { id: 1, level: 1, content: '1' },
       { id: 3, level: 2, content: '2' },
       { id: 2, level: 2, content: '2' }
@@ -105,7 +105,7 @@ describe('onTreeNodeDown', () => {
   ];
 
   it('子节点下移时, 会带上自己的子孙节点', () =>
-    expect(moveTreeNodeDown(tree4, 2)).toEqual([
+    expect(moveTreeNodeDown_array(tree4, 2)).toEqual([
       { id: 1, level: 1, content: '1' },
       { id: 3, level: 2, content: '2' },
       { id: 2, level: 2, content: '2' },
@@ -119,7 +119,7 @@ describe('onTreeNodeDown', () => {
     { id: 4, level: 2, content: '2' }
   ];
   it('当前节点是父节点的末节点, 将下移到父的兄节点内', () => {
-    expect(moveTreeNodeDown(tree5, 2)).toEqual([
+    expect(moveTreeNodeDown_array(tree5, 2)).toEqual([
       { id: 1, level: 1, content: '1' },
       { id: 3, level: 1, content: '2' },
       { id: 2, level: 2, content: '2' },

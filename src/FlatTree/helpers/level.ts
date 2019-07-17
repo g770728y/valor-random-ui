@@ -2,7 +2,7 @@ import { min } from 'app-utils';
 import { TreeNode } from '../index.interface';
 import { getLastDecendantIndex } from './common';
 
-export function moveTreeNodeLeft(data: TreeNode[], id: any, span = 1) {
+export function moveTreeNodeLeft(data: TreeNode[], id: any) {
   const minLevel = min(data.map(it => it.level));
   const currIndex = data.findIndex(it => it.id === id);
   // 第1个节点不可移动
@@ -27,7 +27,7 @@ export function moveTreeNodeLeft(data: TreeNode[], id: any, span = 1) {
   ];
 }
 
-export function moveTreeNodeRight(data: TreeNode[], id: any, span = 1) {
+export function moveTreeNodeRight(data: TreeNode[], id: any) {
   const minLevel = min(data.map(it => it.level));
   const currIndex = data.findIndex(it => it.id === id);
   // 第一个节点不能移动
@@ -35,7 +35,6 @@ export function moveTreeNodeRight(data: TreeNode[], id: any, span = 1) {
 
   // 当前节点是上一节点的第1子节点, 不可移动
   const prevNode = currIndex >= 1 ? data[currIndex - 1] : null;
-  console.log(prevNode!.content, prevNode!.level, data[currIndex]);
   if (prevNode && prevNode.level === data[currIndex].level - 1) {
     return data;
   }

@@ -51,6 +51,16 @@ describe('onTreeNodeRight', () => {
       { id: 2, level: 2, content: '1' }
     ]));
 
+  const tree11: TreeNode[] = [
+    { id: 1, level: 1, content: '1' },
+    { id: 2, level: 2, content: '2' },
+    { id: 3, level: 3, content: '3' },
+    { id: 4, level: 1, content: '4' }
+  ];
+
+  it('上一节点的第一个子节点不可右移', () =>
+    expect(moveTreeNodeRight(tree11, 2)).toEqual(tree11));
+
   const tree2: TreeNode[] = [
     { id: 1, level: 1, content: '1' },
     { id: 2, level: 1, content: '1' },
@@ -71,4 +81,8 @@ describe('onTreeNodeRight', () => {
   it('节点不能移出prevNode范围:', () => {
     expect(moveTreeNodeRight(tree2_1, 2)).toEqual(tree2_1);
   });
+
+  const tree3: TreeNode[] = [
+    { id: 1, level: 1, content: '1', containable: true }
+  ];
 });

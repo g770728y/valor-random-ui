@@ -1,10 +1,124 @@
-import { findIndexFrom, min } from 'app-utils';
+import {
+  findIndexFrom,
+  min,
+  array2idTree_byLevel,
+  swapByProp,
+  TreeNode as NTreeNode,
+  idTree2Array,
+  findTreeNode
+} from 'app-utils';
 import { TreeNode } from '../index.interface';
 import { getLastDecendantIndex, isLeaf } from './common';
 
+export function moveTreeNodeUp(data: TreeNode[], id: any) {
+  const tree = array2idTree_byLevel(data);
+  let needMoveToParentBrother = false;
+
+  function _moveUp(children: NTreeNode[], id: any): NTreeNode[] {
+    const index = children.findIndex(node => node.id === id);
+    if (index < 0) {
+      return children.map(node => ({
+        ...node,
+        children: _moveUp(node.children, id)
+      }));
+    } else if (index > 0) {
+      const prevNode = children[index - 1];
+      console.log(children, index, 'id', id, prevNode.id);
+      return swapByProp(children, 'id', id, prevNode.id);
+    } else {
+      needMoveToParentBrother = true;
+      return children;
+    }
+  }
+
+  let newTree = { ...tree, children: _moveUp(tree.children, id) };
+  if (needMoveToParentBrother) {
+    newTree = _moveToParentPrevBrotherEffect(newTree, id);
+    return idTree2Array(newTree);
+  } else {
+    return idTree2Array(newTree);
+  }
+}
+
+export function moveTreeNodeDown(data: TreeNode[], id: any) {
+  const tree = array2idTree_byLevel(data);
+  let needMoveToParentBrother = false;
+
+  function _moveDown(children: NTreeNode[], id: any): NTreeNode[] {
+    const index = children.findIndex(node => node.id === id);
+    if (index < 0) {
+      return children.map(node => ({
+        ...node,
+        children: _moveDown(node.children, id)
+      }));
+    } else if (index < children.length - 1) {
+      const nextNode = children[index + 1];
+      return swapByProp(children, 'id', id, nextNode.id);
+    } else {
+      needMoveToParentBrother = true;
+      return children;
+    }
+  }
+  let newTree = { ...tree, children: _moveDown(tree.children, id) };
+  if (needMoveToParentBrother) {
+    newTree = _moveToParentNextBrotherEffect(newTree, id);
+    return idTree2Array(newTree);
+  } else {
+    return idTree2Array(newTree);
+  }
+}
+
+// 注意: 这是一个副作用方法!!! 它修改了newTree
+function _moveToParentNextBrotherEffect(newTree: NTreeNode, id: any) {
+  const node = findTreeNode(newTree, node => node.id === id);
+  const pNode = findTreeNode(newTree, ({ id }) => id === node!.pid);
+  const nodeIndex = pNode
+    ? pNode.children.findIndex(n => n.id === node!.id)
+    : -1;
+  const ppNode = pNode && findTreeNode(newTree, node => node.id === pNode.pid);
+  const pIndex =
+    pNode && ppNode
+      ? ppNode.children.findIndex(node => node.id === pNode.id)
+      : -1;
+  const pBrotherNode =
+    pNode && ppNode && pIndex < ppNode.children.length - 1
+      ? ppNode.children[pIndex + 1]
+      : null;
+  if (pBrotherNode) {
+    pBrotherNode.children = [node!, ...pBrotherNode!.children];
+    pNode && pNode.children.splice(nodeIndex, 1);
+  }
+  return newTree;
+}
+
+// 注意: 这是一个副作用方法!!! 它修改了newTree
+function _moveToParentPrevBrotherEffect(newTree: NTreeNode, id: any) {
+  const node = findTreeNode(newTree, node => node.id === id);
+  const pNode = findTreeNode(newTree, ({ id }) => id === node!.pid);
+  const nodeIndex = pNode
+    ? pNode.children.findIndex(n => n.id === node!.id)
+    : -1;
+  const ppNode = pNode && findTreeNode(newTree, node => node.id === pNode.pid);
+  const pIndex =
+    pNode && ppNode
+      ? ppNode.children.findIndex(node => node.id === pNode.id)
+      : -1;
+  const pBrotherNode =
+    pNode && ppNode && pIndex > 0 ? ppNode.children[pIndex - 1] : null;
+  if (pBrotherNode) {
+    pBrotherNode.children = [...pBrotherNode!.children, node!];
+    pNode && pNode.children.splice(nodeIndex, 1);
+  }
+  return newTree;
+}
 // 移动后, level与上个节点同级
 // span: 跨多少节点
-export function moveTreeNodeUp(data: TreeNode[], id: any, span: number = 1) {
+// 非常特殊
+export function moveTreeNodeUpOneStep(
+  data: TreeNode[],
+  id: any,
+  span: number = 1
+) {
   console.log('span: ', span);
   const currIndex = data.findIndex(it => it.id === id);
   if (currIndex <= 0 || currIndex > data.length - 1) return data;
@@ -31,13 +145,20 @@ export function moveTreeNodeUp(data: TreeNode[], id: any, span: number = 1) {
 // 移动后, level默认移动到nextNode之后
 // 如果nextNode.isLeaf => level=nextNode.level
 // 否则level=nextNode.level + 1 ( 作为下个节点的第1个子节点 )
-export function moveTreeNodeDown(data: TreeNode[], id: any, span: number = 1) {
+export function moveTreeNodeDownOneStep(
+  data: TreeNode[],
+  id: any,
+  span: number = 1
+) {
   const currIndex = data.findIndex(it => it.id === id);
   if (currIndex < 0 || currIndex >= data.length - 1) return data;
+
   const currNode = data[currIndex];
 
+  // 当前节点的子孙节点是最后一个节点, 不可移动
   const lastDecendantIndex = getLastDecendantIndex(data, currIndex);
 
+  console.log(lastDecendantIndex);
   if (lastDecendantIndex === data.length - 1) return data;
 
   const nextNode = data[lastDecendantIndex + span];
@@ -51,6 +172,8 @@ export function moveTreeNodeDown(data: TreeNode[], id: any, span: number = 1) {
         ? it.level - (currNode.level - nextNode.level)
         : it.level - (currNode.level - nextNode.level) + 1
     }));
+
+  console.log(currIndex, lastDecendantIndex + 1, lastDecendantIndex + span + 1);
 
   return [
     ...data.slice(0, currIndex),

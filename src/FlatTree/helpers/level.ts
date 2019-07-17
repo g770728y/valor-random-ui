@@ -33,7 +33,13 @@ export function moveTreeNodeRight(data: TreeNode[], id: any, span = 1) {
   // 第一个节点不能移动
   if (currIndex <= 0) return data;
 
+  // 当前节点是上一节点的第1子节点, 不可移动
   const prevNode = currIndex >= 1 ? data[currIndex - 1] : null;
+  console.log(prevNode!.content, prevNode!.level, data[currIndex]);
+  if (prevNode && prevNode.level === data[currIndex].level - 1) {
+    return data;
+  }
+
   const maxLevel = prevNode ? prevNode.level + 1 : minLevel;
   const currNode = data[currIndex];
   if (currNode.level >= maxLevel) return data;

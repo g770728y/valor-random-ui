@@ -31,6 +31,20 @@ describe('onTreeNodeUp', () => {
       { id: 1, level: 1, content: '1' },
       { id: 5, level: 2, content: '5' }
     ]));
+
+  const tree2: TreeNode[] = [
+    { id: 1, level: 1, content: '1' },
+    { id: 2, level: 2, content: '2' },
+    { id: 3, level: 2, content: '3' }
+  ];
+
+  it('跨2个节点移动', () => {
+    expect(moveTreeNodeUp(tree2, 3, 2)).toEqual([
+      { id: 3, level: 1, content: '3' },
+      { id: 1, level: 1, content: '1' },
+      { id: 2, level: 2, content: '2' }
+    ]);
+  });
 });
 
 describe('onTreeNodeDown', () => {
@@ -79,5 +93,18 @@ describe('onTreeNodeDown', () => {
       { id: 1, level: 1, content: '1' },
       { id: 2, level: 2, content: '1' },
       { id: 5, level: 1, content: '1' }
+    ]));
+
+  const tree5: TreeNode[] = [
+    { id: 1, level: 1, content: '1' },
+    { id: 2, level: 1, content: '2' },
+    { id: 3, level: 1, content: '3' }
+  ];
+
+  it('节点下移, 跨越2个节点', () =>
+    expect(moveTreeNodeDown(tree5, 1, 2)).toEqual([
+      { id: 2, level: 1, content: '2' },
+      { id: 3, level: 1, content: '3' },
+      { id: 1, level: 1, content: '1' }
     ]));
 });

@@ -5,6 +5,7 @@ import { isLeaf, getHiddenIdsForCollapsed } from './helpers/common';
 import { FlatTreeHelper } from './helpers';
 import { IoMdArrowDropright, IoMdArrowDropdown } from 'react-icons/io';
 import { Center } from '../layout';
+import * as R from 'rambda';
 
 type FlatTreeNodeProps = {
   data: TreeNode;
@@ -16,15 +17,16 @@ type FlatTreeNodeProps = {
   onExpand?: (id: any) => void;
 } & React.HTMLAttributes<HTMLElement>;
 
-const FlatTreeNode_: React.FC<FlatTreeNodeProps> = ({
-  data,
-  isLeaf,
-  isSelected,
-  isCollapsed,
-  onSelect,
-  onCollapse,
-  onExpand
-}) => {
+const FlatTreeNode_: React.FC<FlatTreeNodeProps> = _props => {
+  const {
+    data,
+    isLeaf,
+    isSelected,
+    isCollapsed,
+    onSelect,
+    onCollapse,
+    onExpand
+  } = _props;
   console.log('render node');
   const onClick = React.useCallback(() => {
     if (onSelect) {
@@ -69,7 +71,12 @@ const FlatTreeNode_: React.FC<FlatTreeNodeProps> = ({
   );
 };
 
-const FlatTreeNode = React.memo(FlatTreeNode_);
+function compareFn(prevProps: FlatTreeNodeProps, nextProps: FlatTreeNodeProps) {
+  const p = R.pick(['data', 'isLeaf', 'isSelected', 'isCollapsed']);
+  return R.equals(p(prevProps), p(nextProps));
+}
+
+const FlatTreeNode = React.memo(FlatTreeNode_, compareFn);
 
 interface FlatTreeProps {
   data: { id: any; level: number; content: string }[];

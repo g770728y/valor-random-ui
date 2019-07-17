@@ -10,13 +10,11 @@ export function isLeaf(data: TreeNode[], id: any) {
 // 获取currIndex对应的节点的最后一个子(孙)节点的index
 export function getLastDecendantIndex(data: TreeNode[], currIndex: number) {
   const currNode = data[currIndex];
-  console.log('data', data, currIndex + 1);
   const nextNodeIndex = findIndexFrom(
     data,
     currIndex + 1,
     it => it.level <= currNode.level
   );
-  console.log('nextNodeIndex', nextNodeIndex);
   const lastDecendantIndex =
     nextNodeIndex < 0 ? data.length - 1 : nextNodeIndex - 1;
   return lastDecendantIndex;

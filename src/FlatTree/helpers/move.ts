@@ -3,15 +3,16 @@ import { TreeNode } from '../index.interface';
 import { getLastDecendantIndex, isLeaf } from './common';
 
 // 移动后, level与上个节点同级
-export function moveTreeNodeUp(data: TreeNode[], id: any) {
+// span: 跨多少节点
+export function moveTreeNodeUp(data: TreeNode[], id: any, span: number = 1) {
+  console.log('span: ', span);
   const currIndex = data.findIndex(it => it.id === id);
   if (currIndex <= 0 || currIndex > data.length - 1) return data;
   const currNode = data[currIndex];
 
-  // 下一个与curr平级或更高级的node
   const lastDecendantIndex = getLastDecendantIndex(data, currIndex);
 
-  const prevNode = data[currIndex - 1];
+  const prevNode = data[currIndex - span];
   const newCurrentNodeWithDecendants = data
     .slice(currIndex, lastDecendantIndex + 1)
     .map(it => ({
@@ -20,9 +21,9 @@ export function moveTreeNodeUp(data: TreeNode[], id: any) {
     }));
 
   return [
-    ...data.slice(0, currIndex - 1 < 0 ? 0 : currIndex - 1),
+    ...data.slice(0, currIndex - span < 0 ? 0 : currIndex - span),
     ...newCurrentNodeWithDecendants,
-    prevNode,
+    ...data.slice(currIndex - span, currIndex),
     ...data.slice(lastDecendantIndex + 1)
   ];
 }
@@ -30,7 +31,7 @@ export function moveTreeNodeUp(data: TreeNode[], id: any) {
 // 移动后, level默认移动到nextNode之后
 // 如果nextNode.isLeaf => level=nextNode.level
 // 否则level=nextNode.level + 1 ( 作为下个节点的第1个子节点 )
-export function moveTreeNodeDown(data: TreeNode[], id: any) {
+export function moveTreeNodeDown(data: TreeNode[], id: any, span: number = 1) {
   const currIndex = data.findIndex(it => it.id === id);
   if (currIndex < 0 || currIndex >= data.length - 1) return data;
   const currNode = data[currIndex];
@@ -39,7 +40,7 @@ export function moveTreeNodeDown(data: TreeNode[], id: any) {
 
   if (lastDecendantIndex === data.length - 1) return data;
 
-  const nextNode = data[lastDecendantIndex + 1];
+  const nextNode = data[lastDecendantIndex + span];
   const nextNodeIsLeaf = isLeaf(data, nextNode.id);
 
   const newCurrentNodeWithDecendants = data
@@ -53,8 +54,8 @@ export function moveTreeNodeDown(data: TreeNode[], id: any) {
 
   return [
     ...data.slice(0, currIndex),
-    nextNode,
+    ...data.slice(lastDecendantIndex + 1, lastDecendantIndex + span + 1),
     ...newCurrentNodeWithDecendants,
-    ...data.slice(lastDecendantIndex + 1 + 1)
+    ...data.slice(lastDecendantIndex + span + 1)
   ];
 }

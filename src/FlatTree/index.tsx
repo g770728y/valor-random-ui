@@ -45,6 +45,7 @@ const FlatTreeNode_: React.FC<FlatTreeNodeProps> = _props => {
   };
   return (
     <div
+      id={`catalog_${data.id}`}
       className={`valor-flat-tree-item ${
         isSelected ? 'valor-flat-tree-item-selected' : ''
       }`}

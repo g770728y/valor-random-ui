@@ -16,7 +16,7 @@ export function moveTreeNodeUp(tree: NTreeNode, id: any) {
     if (index < 0) {
       return children.map(node => ({
         ...node,
-        children: _moveUp(node.children, id)
+        children: _moveUp(node.children!, id)
       }));
     } else if (index > 0) {
       const prevNode = children[index - 1];
@@ -27,7 +27,7 @@ export function moveTreeNodeUp(tree: NTreeNode, id: any) {
     }
   }
 
-  let newTree = { ...tree, children: _moveUp(tree.children, id) };
+  let newTree = { ...tree, children: _moveUp(tree.children!, id) };
   return needMoveToParentBrother
     ? moveToParentPrevBrotherEffect(newTree, id)
     : newTree;
@@ -41,7 +41,7 @@ export function moveTreeNodeDown(tree: NTreeNode, id: any) {
     if (index < 0) {
       return children.map(node => ({
         ...node,
-        children: _moveDown(node.children, id)
+        children: _moveDown(node.children!, id)
       }));
     } else if (index < children.length - 1) {
       const nextNode = children[index + 1];
@@ -51,7 +51,7 @@ export function moveTreeNodeDown(tree: NTreeNode, id: any) {
       return children;
     }
   }
-  let newTree = { ...tree, children: _moveDown(tree.children, id) };
+  let newTree = { ...tree, children: _moveDown(tree.children!, id) };
   return needMoveToParentBrother
     ? moveToParentNextBrotherEffect(newTree, id)
     : newTree;
@@ -76,20 +76,20 @@ function moveToParentNextBrotherEffect(newTree: NTreeNode, id: any) {
   const node = findTreeNode(newTree, node => node.id === id);
   const pNode = findTreeNode(newTree, ({ id }) => id === node!.pid);
   const nodeIndex = pNode
-    ? pNode.children.findIndex(n => n.id === node!.id)
+    ? pNode.children!.findIndex(n => n.id === node!.id)
     : -1;
   const ppNode = pNode && findTreeNode(newTree, node => node.id === pNode.pid);
   const pIndex =
     pNode && ppNode
-      ? ppNode.children.findIndex(node => node.id === pNode.id)
+      ? ppNode.children!.findIndex(node => node.id === pNode.id)
       : -1;
   const pBrotherNode =
-    pNode && ppNode && pIndex < ppNode.children.length - 1
-      ? ppNode.children[pIndex + 1]
+    pNode && ppNode && pIndex < ppNode.children!.length - 1
+      ? ppNode.children![pIndex + 1]
       : null;
   if (pBrotherNode) {
-    pBrotherNode.children = [node!, ...pBrotherNode!.children];
-    pNode && pNode.children.splice(nodeIndex, 1);
+    pBrotherNode.children = [node!, ...pBrotherNode!.children!];
+    pNode && pNode.children!.splice(nodeIndex, 1);
   }
   return newTree;
 }
@@ -99,18 +99,18 @@ function moveToParentPrevBrotherEffect(newTree: NTreeNode, id: any) {
   const node = findTreeNode(newTree, node => node.id === id);
   const pNode = findTreeNode(newTree, ({ id }) => id === node!.pid);
   const nodeIndex = pNode
-    ? pNode.children.findIndex(n => n.id === node!.id)
+    ? pNode.children!.findIndex(n => n.id === node!.id)
     : -1;
   const ppNode = pNode && findTreeNode(newTree, node => node.id === pNode.pid);
   const pIndex =
     pNode && ppNode
-      ? ppNode.children.findIndex(node => node.id === pNode.id)
+      ? ppNode.children!.findIndex(node => node.id === pNode.id)
       : -1;
   const pBrotherNode =
-    pNode && ppNode && pIndex > 0 ? ppNode.children[pIndex - 1] : null;
+    pNode && ppNode && pIndex > 0 ? ppNode.children![pIndex - 1] : null;
   if (pBrotherNode) {
-    pBrotherNode.children = [...pBrotherNode!.children, node!];
-    pNode && pNode.children.splice(nodeIndex, 1);
+    pBrotherNode.children = [...pBrotherNode!.children!, node!];
+    pNode && pNode.children!.splice(nodeIndex, 1);
   }
   return newTree;
 }

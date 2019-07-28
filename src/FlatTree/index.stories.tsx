@@ -11,7 +11,7 @@ import {
 import { moveTreeNodeLeft, moveTreeNodeRight } from './helpers/level';
 import { deleteTreeNode } from './helpers/delete';
 import { createTreeNode } from './helpers/create';
-import { nextArrayId, reAppend, array2idTree_byLevel } from 'app-utils';
+import { nextArrayId, reAppend, array2idTree_byLevel } from 'valor-app-utils';
 import { getNextNode } from './helpers/common';
 
 const tree: TreeNode[] = [

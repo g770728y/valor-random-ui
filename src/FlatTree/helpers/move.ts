@@ -4,7 +4,7 @@ import {
   TreeNode as NTreeNode,
   idTree2Array,
   findTreeNode
-} from 'app-utils';
+} from 'valor-app-utils';
 import { TreeNode } from '../index.interface';
 import { getLastDecendantIndex, isLeaf } from './common';
 

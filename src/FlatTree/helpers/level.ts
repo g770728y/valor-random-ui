@@ -1,4 +1,4 @@
-import { min } from 'app-utils';
+import { min } from 'valor-app-utils';
 import { TreeNode } from '../index.interface';
 import { getLastDecendantIndex } from './common';
 

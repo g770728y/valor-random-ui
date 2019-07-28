@@ -1,6 +1,6 @@
 {
   "name": "valor-random-ui",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "工作中写的 不成体系 的ui组件, 有少量复用机会",
   "author": "g770728y",
   "license": "MIT",
@@ -56,6 +56,6 @@
     "typescript": "^3.5.2"
   },
   "files": [
-    "dist"
+    "/dist"
   ]
 }

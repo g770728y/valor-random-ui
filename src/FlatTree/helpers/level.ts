@@ -51,7 +51,11 @@ export function moveTreeNodeRight(data: TreeNode[], id: any) {
       ...it,
       level: it.level + 1
     }));
-
+  console.log('moveTreeNodeRight:', [
+    ...data.slice(0, currIndex),
+    ...newCurrentNodeWithDecendants,
+    ...data.slice(lastDecendantIndex + 1)
+  ]);
   return [
     ...data.slice(0, currIndex),
     ...newCurrentNodeWithDecendants,

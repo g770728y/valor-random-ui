@@ -20,23 +20,6 @@ export function getLastDecendantIndex(data: TreeNode[], currIndex: number) {
   return lastDecendantIndex;
 }
 
-export function getNextNode(
-  data: TreeNode[],
-  currId: any,
-  options?: { excludeDecendants?: boolean }
-) {
-  const currIndex = data.findIndex(node => node.id === currId);
-  if (options && options.excludeDecendants) {
-    const lastDecendantIndex = getLastDecendantIndex(data, currIndex);
-    return lastDecendantIndex < data.length - 1
-      ? data[lastDecendantIndex + 1]
-      : undefined;
-  } else {
-    return currIndex >= 0 && currIndex < data.length - 1
-      ? data[currIndex + 1]
-      : undefined;
-  }
-}
 export function getHiddenIdsForCollapsed(
   data: TreeNode[],
   collapsedIds: any[]

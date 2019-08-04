@@ -2,17 +2,7 @@ import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import FlatTree from '.';
 import { TreeNode } from './index.interface';
-import {
-  moveTreeNodeUp,
-  moveTreeNodeDown,
-  moveTreeNodeUp_array,
-  moveTreeNodeDown_array
-} from './helpers/move';
-import { moveTreeNodeLeft, moveTreeNodeRight } from './helpers/level';
-import { deleteTreeNode } from './helpers/delete';
-import { createTreeNode } from './helpers/create';
-import { nextArrayId, reAppend, array2idTree_byLevel } from 'valor-app-utils';
-import { getNextNode } from './helpers/common';
+import { nextArrayId, reAppend } from 'valor-app-utils';
 
 const tree: TreeNode[] = [
   { id: 1, level: 1, content: '1' },
@@ -30,34 +20,34 @@ const DefaultTree: React.FC = () => {
   const [selectedId, onSelect] = React.useState<number | null>(null);
   const [data, setData] = React.useState(tree);
   const [collapsedIds, setCollapsedIds] = React.useState<number[]>([]);
-  const onUp = () => {
-    setData(moveTreeNodeUp_array(data, selectedId) as any);
-  };
-  const onDown = () => {
-    setData(moveTreeNodeDown_array(data, selectedId) as any);
-  };
-  const onLeft = () => {
-    setData(moveTreeNodeLeft(data, selectedId));
-  };
-  const onRight = () => {
-    setData(moveTreeNodeRight(data, selectedId));
-  };
-  const onDelete = () => {
-    if (selectedId && collapsedIds.includes(selectedId)) {
-      setCollapsedIds(collapsedIds.filter(id => id !== selectedId));
-    }
-    const nextNode = getNextNode(data, selectedId, { excludeDecendants: true });
-    setData(deleteTreeNode(data, selectedId));
-    onSelect(nextNode && nextNode.id);
-  };
-  const onInsert = () => {
-    const id = nextArrayId(data);
-    setData(
-      createTreeNode(data, { id, content: id + '_content' }, selectedId, {
-        topLevel: 1
-      })
-    );
-  };
+  // const onUp = () => {
+  //   setData(moveTreeNodeUp_array(data, selectedId) as any);
+  // };
+  // const onDown = () => {
+  //   setData(moveTreeNodeDown_array(data, selectedId) as any);
+  // };
+  // const onLeft = () => {
+  //   setData(moveTreeNodeLeft(data, selectedId));
+  // };
+  // const onRight = () => {
+  //   setData(moveTreeNodeRight(data, selectedId));
+  // };
+  // const onDelete = () => {
+  //   if (selectedId && collapsedIds.includes(selectedId)) {
+  //     setCollapsedIds(collapsedIds.filter(id => id !== selectedId));
+  //   }
+  //   const nextNode = getNextNode(data, selectedId, { excludeDecendants: true });
+  //   setData(deleteTreeNode(data, selectedId));
+  //   onSelect(nextNode && nextNode.id);
+  // };
+  // const onInsert = () => {
+  //   const id = nextArrayId(data);
+  //   setData(
+  //     createTreeNode(data, { id, content: id + '_content' }, selectedId, {
+  //       topLevel: 1
+  //     })
+  //   );
+  // };
   const onCollapse = () => {
     if (selectedId) {
       setCollapsedIds(reAppend<number>(collapsedIds, selectedId));
@@ -73,12 +63,12 @@ const DefaultTree: React.FC = () => {
   return (
     <div>
       <div>
-        <button onClick={onUp}>向上</button>
+        {/* <button onClick={onUp}>向上</button>
         <button onClick={onDown}>向下</button>
         <button onClick={onLeft}>向左</button>
         <button onClick={onRight}>向右</button>
         <button onClick={onDelete}>删除</button>
-        <button onClick={onInsert}>插入</button>
+        <button onClick={onInsert}>插入</button> */}
         <button onClick={onExpand}>展开</button>
         <button onClick={onCollapse}>收合</button>
       </div>

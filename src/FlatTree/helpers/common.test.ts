@@ -1,5 +1,5 @@
 import { TreeNode } from '../index.interface';
-import { isLeaf, getNextNode, getHiddenIdsForCollapsed } from './common';
+import { isLeaf, getHiddenIdsForCollapsed } from './common';
 
 describe('is-leaf', () => {
   const tree4: TreeNode[] = [
@@ -12,20 +12,6 @@ describe('is-leaf', () => {
   it('2', () => expect(isLeaf(tree4, 2)).toBeFalsy());
   it('3', () => expect(isLeaf(tree4, 4)).toBeTruthy());
   it('5', () => expect(isLeaf(tree4, 5)).toBeTruthy());
-});
-
-describe('getNextNode', () => {
-  const tree4: TreeNode[] = [
-    { id: 1, level: 1, content: '1' },
-    { id: 2, level: 2, content: '1' },
-    { id: 3, level: 1, content: '1' }
-  ];
-
-  it('1', () => expect(getNextNode(tree4, 1)!.id).toEqual(2));
-  it('2', () => expect(getNextNode(tree4, 2)!.id).toEqual(3));
-  it('3', () => expect(getNextNode(tree4, 3)).toEqual(undefined));
-  it('1-with-decendants', () =>
-    expect(getNextNode(tree4, 1, { excludeDecendants: true })!.id).toEqual(3));
 });
 
 describe('getHiddenIdsForCollapsed', () => {

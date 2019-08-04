@@ -10,14 +10,14 @@ import {
 } from './common';
 
 export const FlatTreeHelper = {
-  moveTreeNodeUp,
-  moveTreeNodeDown,
-  moveTreeNodeLeft,
-  moveTreeNodeRight,
-  deleteTreeNode,
-  createTreeNode,
+  // moveTreeNodeUp,
+  // moveTreeNodeDown,
+  // moveTreeNodeLeft,
+  // moveTreeNodeRight,
+  // deleteTreeNode,
+  // createTreeNode,
   isLeaf,
-  getLastDecendantIndex,
-  getNextNode,
+  // getLastDecendantIndex,
+  // getNextNode,
   getHiddenIdsForCollapsed
 };

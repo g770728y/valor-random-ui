@@ -16,38 +16,20 @@ const tree: TreeNode[] = [
   { id: 9, level: 1, content: '9' }
 ];
 
+const Action: React.FC<{ id: any }> = ({ id }) => {
+  const [i, setI] = React.useState(0);
+  return (
+    <button onClick={() => setI(i + 1)}>
+      {i}:{id}
+    </button>
+  );
+};
+
 const DefaultTree: React.FC = () => {
   const [selectedId, onSelect] = React.useState<number | null>(null);
   const [data, setData] = React.useState(tree);
   const [collapsedIds, setCollapsedIds] = React.useState<number[]>([]);
-  // const onUp = () => {
-  //   setData(moveTreeNodeUp_array(data, selectedId) as any);
-  // };
-  // const onDown = () => {
-  //   setData(moveTreeNodeDown_array(data, selectedId) as any);
-  // };
-  // const onLeft = () => {
-  //   setData(moveTreeNodeLeft(data, selectedId));
-  // };
-  // const onRight = () => {
-  //   setData(moveTreeNodeRight(data, selectedId));
-  // };
-  // const onDelete = () => {
-  //   if (selectedId && collapsedIds.includes(selectedId)) {
-  //     setCollapsedIds(collapsedIds.filter(id => id !== selectedId));
-  //   }
-  //   const nextNode = getNextNode(data, selectedId, { excludeDecendants: true });
-  //   setData(deleteTreeNode(data, selectedId));
-  //   onSelect(nextNode && nextNode.id);
-  // };
-  // const onInsert = () => {
-  //   const id = nextArrayId(data);
-  //   setData(
-  //     createTreeNode(data, { id, content: id + '_content' }, selectedId, {
-  //       topLevel: 1
-  //     })
-  //   );
-  // };
+
   const onCollapse = () => {
     if (selectedId) {
       setCollapsedIds(reAppend<number>(collapsedIds, selectedId));
@@ -63,16 +45,11 @@ const DefaultTree: React.FC = () => {
   return (
     <div>
       <div>
-        {/* <button onClick={onUp}>向上</button>
-        <button onClick={onDown}>向下</button>
-        <button onClick={onLeft}>向左</button>
-        <button onClick={onRight}>向右</button>
-        <button onClick={onDelete}>删除</button>
-        <button onClick={onInsert}>插入</button> */}
         <button onClick={onExpand}>展开</button>
         <button onClick={onCollapse}>收合</button>
       </div>
       <FlatTree
+        ActionComponent={Action}
         data={data}
         selectedId={selectedId}
         onSelect={onSelect}

@@ -8,6 +8,7 @@ import { Center } from '../layout';
 import * as R from 'rambda';
 
 type FlatTreeNodeProps = {
+  ActionComponent?: React.FC<{ id: any }>;
   data: TreeNode;
   isLeaf: boolean;
   isSelected: boolean;
@@ -19,6 +20,7 @@ type FlatTreeNodeProps = {
 
 const FlatTreeNode_: React.FC<FlatTreeNodeProps> = _props => {
   const {
+    ActionComponent,
     data,
     isLeaf,
     isSelected,
@@ -28,6 +30,7 @@ const FlatTreeNode_: React.FC<FlatTreeNodeProps> = _props => {
     onExpand
   } = _props;
   console.log('render node');
+  const [hovered, setHovered] = React.useState(false);
   const onClick = React.useCallback(() => {
     if (onSelect) {
       onSelect(data.id);
@@ -51,11 +54,11 @@ const FlatTreeNode_: React.FC<FlatTreeNodeProps> = _props => {
       }`}
       key={data.id}
       style={{
-        position: 'relative',
-        cursor: 'pointer',
         paddingLeft: `${data.level + 0.3}em`
       }}
       onClick={onClick}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
     >
       {onExpand && !isLeaf && isCollapsed && (
         <Center {...props} onClick={() => onExpand(data.id)}>
@@ -67,7 +70,12 @@ const FlatTreeNode_: React.FC<FlatTreeNodeProps> = _props => {
           <IoMdArrowDropdown />
         </Center>
       )}
-      {data.content}
+      <div className={'valor-flat-tree-item-content'}>{data.content}</div>
+      {isSelected && hovered && ActionComponent && (
+        <div className={'valor-action-container'}>
+          <ActionComponent id={data.id} />
+        </div>
+      )}
     </div>
   );
 };
@@ -80,6 +88,7 @@ function compareFn(prevProps: FlatTreeNodeProps, nextProps: FlatTreeNodeProps) {
 const FlatTreeNode = React.memo(FlatTreeNode_, compareFn);
 
 interface FlatTreeProps {
+  ActionComponent: React.FC<{ id: any }>;
   data: { id: any; level: number; content: string }[];
   collapsedIds: any[];
   selectedId?: any;
@@ -88,6 +97,7 @@ interface FlatTreeProps {
   onExpand?: (id: any) => void;
 }
 const FlatTree: React.FC<FlatTreeProps> = ({
+  ActionComponent,
   data,
   selectedId,
   collapsedIds,
@@ -103,6 +113,7 @@ const FlatTree: React.FC<FlatTreeProps> = ({
 
     return (
       <FlatTreeNode
+        ActionComponent={ActionComponent}
         key={item.id}
         data={item}
         isSelected={selectedId === id}

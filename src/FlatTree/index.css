@@ -3,6 +3,7 @@
 }
 
 .valor-flat-tree-item {
+  position: relative;
   height: 2em;
   line-height: 2em;
   color: #999;
@@ -26,4 +27,11 @@
 .valor-flat-tree-item-selected {
   color: #fff;
   background: #1ea7fd;
+}
+
+.valor-action-container {
+  position: absolute;
+  right: 10px;
+  height: 100%;
+  z-index: 10;
 }

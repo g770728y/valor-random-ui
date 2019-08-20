@@ -13,6 +13,7 @@ type FlatTreeNodeProps = {
   isLeaf: boolean;
   isSelected: boolean;
   isCollapsed: boolean;
+  readonly?: boolean;
   onSelect: (id: any) => void;
   onCollapse?: (id: any) => void;
   onExpand?: (id: any) => void;
@@ -25,6 +26,7 @@ const FlatTreeNode_: React.FC<FlatTreeNodeProps> = _props => {
     isLeaf,
     isSelected,
     isCollapsed,
+    readonly,
     onSelect,
     onCollapse,
     onExpand
@@ -71,7 +73,7 @@ const FlatTreeNode_: React.FC<FlatTreeNodeProps> = _props => {
         </Center>
       )}
       <div className={'valor-flat-tree-item-content'}>{data.content}</div>
-      {isSelected && hovered && ActionComponent && (
+      {!readonly && isSelected && hovered && ActionComponent && (
         <div className={'valor-action-container'}>
           <ActionComponent id={data.id} />
         </div>
@@ -95,12 +97,14 @@ interface FlatTreeProps {
   onSelect: (id: any) => void;
   onCollapse?: (id: any) => void;
   onExpand?: (id: any) => void;
+  readonly?: boolean;
 }
 const FlatTree: React.FC<FlatTreeProps> = ({
   ActionComponent,
   data,
   selectedId,
   collapsedIds,
+  readonly,
   onSelect,
   onCollapse,
   onExpand
@@ -119,6 +123,7 @@ const FlatTree: React.FC<FlatTreeProps> = ({
         isSelected={selectedId === id}
         isLeaf={isLeaf(data, item.id)}
         isCollapsed={collapsedIds.includes(id)}
+        readonly={readonly}
         onSelect={onSelect}
         onCollapse={onCollapse}
         onExpand={onExpand}

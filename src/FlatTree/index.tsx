@@ -31,7 +31,7 @@ const FlatTreeNode_: React.FC<FlatTreeNodeProps> = _props => {
     onCollapse,
     onExpand
   } = _props;
-  console.log('render node');
+  // console.log('render node');
   const [hovered, setHovered] = React.useState(false);
   const onClick = React.useCallback(() => {
     if (onSelect) {

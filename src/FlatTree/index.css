@@ -1,18 +1,38 @@
+/*     catalog tree 相关    */
 .valor-flat-tree {
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .valor-flat-tree-item {
-  position: relative;
+  border-radius: 4px;
   height: 2em;
   line-height: 2em;
   color: #999;
+  position: relative;
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  cursor: default;
 }
 .valor-flat-tree-item:hover {
   background: #e6f7ff;
+}
+
+.valor-flat-tree-item-content {
+  text-overflow: ellipsis;
+  flex: auto;
+  width: 1px;
+  overflow: hidden;
+  cursor: default;
+  white-space: nowrap;
+}
+
+.valor-flat-tree-item-selected {
+  color: #fff;
+  background: linear-gradient(90deg, #1ea7fd, #fafafa);
+}
+.valor-flat-tree-item-selected:hover {
+  background: #1ea7fd;
 }
 
 .valor-flat-tree-item-container {
@@ -20,18 +40,9 @@
   text-align: center;
   margin-right: 8px;
 }
-.valor-flat-tree-item-container:hover {
-  cursor: pointer;
-}
-
-.valor-flat-tree-item-selected {
-  color: #fff;
-  background: #1ea7fd;
-}
 
 .valor-action-container {
-  position: absolute;
-  right: 10px;
   height: 100%;
-  z-index: 10;
+  margin-right: 10px;
 }
+/*     catalog tree 相关    */

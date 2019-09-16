@@ -38,6 +38,7 @@ const FlatTreeNode_: React.FC<FlatTreeNodeProps> = _props => {
       onSelect(data.id);
     }
   }, []);
+  const isReadonly = !!(readonly || data.readonly);
   const props = {
     style: {
       position: 'absolute',
@@ -73,7 +74,7 @@ const FlatTreeNode_: React.FC<FlatTreeNodeProps> = _props => {
         </Center>
       )}
       <div className={'valor-flat-tree-item-content'}>{data.content}</div>
-      {!readonly && isSelected && hovered && ActionComponent && (
+      {!isReadonly && isSelected && hovered && ActionComponent && (
         <div className={'valor-action-container'}>
           <ActionComponent id={data.id} />
         </div>

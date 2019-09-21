@@ -26,11 +26,18 @@ export function getHiddenIdsForCollapsed(
 ) {
   const allIds = collapsedIds.map(collapsedId => {
     const currIndex = data.findIndex(node => node.id === collapsedId);
-    const lastDecendantIndex = getLastDecendantIndex(data, currIndex);
+    if (currIndex < 0) {
+      // 如果节点是:[a [a1 [a11 [a111]]]], 并且a11折叠, 则collapsedIds.includes('a11')
+      // 但如果删除 a1, 则a11在data中不存在, 但collapsedIds中仍存在, 则会引发空指针异常
+      // 具体报错为: cannot read property 'level' of undefined
+      return [];
+    } else {
+      const lastDecendantIndex = getLastDecendantIndex(data, currIndex);
 
-    return data
-      .slice(currIndex + 1, lastDecendantIndex + 1)
-      .map(node => node.id);
+      return data
+        .slice(currIndex + 1, lastDecendantIndex + 1)
+        .map(node => node.id);
+    }
   });
   return R.flatten(allIds);
 }

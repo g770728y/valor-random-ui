@@ -6,6 +6,7 @@ import { FlatTreeHelper } from './helpers';
 import { IoMdArrowDropright, IoMdArrowDropdown } from 'react-icons/io';
 import { Center } from '../layout';
 import * as R from 'rambda';
+import classnames from 'classnames';
 
 type FlatTreeNodeProps = {
   ActionComponent?: React.FC<{ id: any }>;
@@ -73,7 +74,13 @@ const FlatTreeNode_: React.FC<FlatTreeNodeProps> = _props => {
           <IoMdArrowDropdown />
         </Center>
       )}
-      <div className={'valor-flat-tree-item-content'}>{data.content}</div>
+      <div
+        className={classnames('valor-flat-tree-item-content', {
+          'flat-tree-item-readonly': isReadonly
+        })}
+      >
+        {data.content}
+      </div>
       {!isReadonly && isSelected && hovered && ActionComponent && (
         <div className={'valor-action-container'}>
           <ActionComponent id={data.id} />

@@ -7,7 +7,7 @@
   border-radius: 4px;
   height: 2em;
   line-height: 2em;
-  color: #999;
+  color: #666;
   position: relative;
   display: flex;
   justify-content: flex-start;
@@ -25,6 +25,10 @@
   overflow: hidden;
   cursor: default;
   white-space: nowrap;
+}
+
+.flat-tree-item-readonly {
+  color: #999;
 }
 
 .valor-flat-tree-item-selected {

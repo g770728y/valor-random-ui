@@ -1,6 +1,6 @@
 {
   "name": "valor-random-ui",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "工作中写的 不成体系 的ui组件, 有少量复用机会",
   "author": "g770728y",
   "license": "MIT",
@@ -15,7 +15,7 @@
   "scripts": {
     "test": "cross-env CI=1 react-scripts-ts test --env=jsdom",
     "test:watch": "react-scripts-ts test --env=jsdom",
-    "build": "rollup -c",
+    "build": "rm -rf ./dist && rollup -c",
     "start": "rollup -c -w",
     "prepare": "yarn run build",
     "predeploy": "cd example && yarn install && yarn run build",

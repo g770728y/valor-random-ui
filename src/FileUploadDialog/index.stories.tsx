@@ -22,6 +22,7 @@ const FileUploadDialogTest = () => {
   return (
     <>
       <FileUploadDialog
+        mode="view"
         fileItems={items}
         title="上传附件测试"
         uploadButtonText="立即上传!"

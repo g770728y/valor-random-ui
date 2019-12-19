@@ -36,6 +36,7 @@ interface Props extends PromisifyModalProps<any> {
   onOk: (
     result: Record<IFileUploadItemStatus, IFileUploadItem[]>
   ) => Promise<any>;
+  mode: "view" | "edit";
 }
 
 const FileUploadDialog: React.FC<Props> = props => {
@@ -89,12 +90,7 @@ const FileUploadDialog: React.FC<Props> = props => {
         files = _files;
         return Promise.all(files.map(file2DataURL));
       })
-      .then(dataUris =>
-        onUpload(
-          dataUris,
-          files.map(it => it.name)
-        )
-      )
+      .then(dataUris => onUpload(dataUris, files.map(it => it.name)))
       .then(_items =>
         _items.map(it => ({ ...it, status: "staled" as IFileUploadItemStatus }))
       );
@@ -140,18 +136,20 @@ const FileUploadDialog: React.FC<Props> = props => {
         return (
           <>
             <span>{record.name}</span>
-            <a
-              href="javascript:void(0)"
-              style={{ marginLeft: 10 }}
-              onClick={() => {
-                const newName = prompt("输入新名称:", record.name);
-                if (newName) {
-                  renameItem(record.id!, newName);
-                }
-              }}
-            >
-              <Icon type="edit" />
-            </a>
+            {props.mode === "edit" && (
+              <a
+                href="javascript:void(0)"
+                style={{ marginLeft: 10 }}
+                onClick={() => {
+                  const newName = prompt("输入新名称:", record.name);
+                  if (newName) {
+                    renameItem(record.id!, newName);
+                  }
+                }}
+              >
+                <Icon type="edit" />
+              </a>
+            )}
           </>
         );
       }
@@ -173,30 +171,35 @@ const FileUploadDialog: React.FC<Props> = props => {
     {
       title: "操作",
       dataIndex: "operation",
+      width: 150,
       render: (_: string, record: IFileUploadItem) => {
         const deleted = record.status === "deleted";
         return deleted ? null : (
           <>
-            <a
-              href="javascript:void(0)"
-              style={{ marginRight: 10 }}
-              onClick={() => {
-                // deleteItem(record.id!);
-                markDelete(record.id!, "deleted");
-              }}
-            >
-              删除
-            </a>
-            <a
-              href="javascript:void(0)"
-              style={{ marginRight: 10 }}
-              onClick={() => {
-                replaceFile(record.id!);
-              }}
-            >
-              重传
-            </a>
-            <Divider type="vertical" />
+            {props.mode === "edit" && (
+              <a
+                href="javascript:void(0)"
+                style={{ marginRight: 10 }}
+                onClick={() => {
+                  // deleteItem(record.id!);
+                  markDelete(record.id!, "deleted");
+                }}
+              >
+                删除
+              </a>
+            )}
+            {props.mode === "edit" && (
+              <a
+                href="javascript:void(0)"
+                style={{ marginRight: 10 }}
+                onClick={() => {
+                  replaceFile(record.id!);
+                }}
+              >
+                重传
+              </a>
+            )}
+            {props.mode === "edit" && <Divider type="vertical" />}
             <a
               onClick={() => {
                 download(
@@ -224,25 +227,46 @@ const FileUploadDialog: React.FC<Props> = props => {
       ? "deleted"
       : "updated";
 
+  const okButton = (
+    <Button
+      key="ok"
+      onClick={() =>
+        onOk(R.groupBy(getRealStatus, items) as any).then(onCancel)
+      }
+    >
+      保存
+    </Button>
+  );
+
+  const cancelButton = (
+    <Button key="cancel" onClick={onCancel}>
+      取消
+    </Button>
+  );
+  const closeButton = (
+    <Button key="cancel" onClick={onCancel}>
+      关闭
+    </Button>
+  );
   return (
     <Modal
       title={title}
-      onOk={() => onOk(R.groupBy(getRealStatus, items) as any).then(onCancel)}
       onCancel={onCancel}
-      okText={"保存"}
-      cancelText={"取消"}
+      footer={props.mode === "view" ? [closeButton] : [cancelButton, okButton]}
       visible={show}
       width={700}
       destroyOnClose={true}
     >
-      <Button type="primary" onClick={createFiles}>
-        {uploadButtonText}
-      </Button>
+      {props.mode === "edit" && (
+        <Button type="primary" onClick={createFiles}>
+          {uploadButtonText}
+        </Button>
+      )}
       <div style={{ height: 10 }} />
       <Table
         size={"small"}
         rowKey={"id"}
-        columns={columns}
+        columns={props.mode === "edit" ? columns : dropIndex(columns, 1)}
         dataSource={items}
         pagination={false}
         scroll={{ y: 500, scrollToFirstRowOnChange: true }}

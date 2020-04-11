@@ -23,7 +23,7 @@
     "sb": "start-storybook -p 9006"
   },
   "dependencies": {
-    "antd": "^3.26.2",
+    "antd": "^3.19.5",
     "rambda": "^4.4.0",
     "react-promisify-modal": "^1.0.1"
   },
@@ -32,7 +32,7 @@
     "react": "^15.0.0 || ^16.0.0",
     "react-dom": "^15.0.0 || ^16.0.0",
     "react-icons": "^3.7.0",
-    "antd": "^3.26.2",
+    "antd": "^3.19.5",
     "rambda": "^4.4.0",
     "valor-app-utils": "^1.0.0",
     "react-promisify-modal": "^1.0.1"

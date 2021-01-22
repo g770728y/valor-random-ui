@@ -269,7 +269,9 @@ const FileUploadDialog: React.FC<Props> = props => {
         columns={props.mode === "edit" ? columns : dropIndex(columns, 1)}
         dataSource={items}
         pagination={false}
-        scroll={{ y: 500, scrollToFirstRowOnChange: true }}
+        scroll={{
+          y: 500 /*, scrollToFirstRowOnChange: true, antd 3.24后才支持*/
+        }}
       />
     </Modal>
   );

@@ -1,6 +1,6 @@
 {
   "name": "valor-random-ui",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "工作中写的 不成体系 的ui组件, 有少量复用机会",
   "author": "g770728y",
   "license": "MIT",
@@ -25,6 +25,7 @@
   "dependencies": {
     "antd": "^3.19.5",
     "rambda": "^4.4.0",
+    "rambdax": "^3.5.0",
     "react-promisify-modal": "^1.0.1"
   },
   "peerDependencies": {
@@ -34,7 +35,7 @@
     "react-icons": "^3.7.0",
     "antd": "^3.19.5",
     "rambda": "^4.4.0",
-    "valor-app-utils": "^1.0.0",
+    "valor-app-utils": "^1.0.69",
     "react-promisify-modal": "^1.0.1"
   },
   "devDependencies": {

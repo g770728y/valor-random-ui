@@ -12,3 +12,6 @@ import FileUploadDialog, {
   IFileUploadItem
 } from "./FileUploadDialog";
 export { FileUploadDialog, IFileUploadItemStatus, IFileUploadItem };
+
+import AdaptiveScrollBar from "./AdaptiveScrollBar";
+export { AdaptiveScrollBar };

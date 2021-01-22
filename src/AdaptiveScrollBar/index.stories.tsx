@@ -41,6 +41,7 @@ const VScrollBarTest = () => {
         viewportSize={500}
         scrollSize={scroll}
         barWidth={20}
+        barSize={250}
         barStyle={{ background: "#999", right: 0 }}
         thumbStyle={{ background: "red" }}
         visibleOn="needed"

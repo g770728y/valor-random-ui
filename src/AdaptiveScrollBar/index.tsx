@@ -13,6 +13,8 @@ interface Props {
   scrollSize: number;
   // 滚动条宽度
   barWidth: number;
+  // 滚动条高度(不一定等于视口高!!!)
+  barSize: number;
   // 滚动条样式
   barStyle: React.CSSProperties;
   // 滚动块样式
@@ -45,7 +47,13 @@ class AdaptiveScrollBar extends React.PureComponent<Props> {
   }
 
   centerBar(nativeEvent: any) {
-    const { direction, onScroll, viewportSize, contentSize } = this.props;
+    const {
+      direction,
+      onScroll,
+      viewportSize,
+      barSize,
+      contentSize
+    } = this.props;
     // 点击后, thumb 应该滚动到此位置 ( 顶部 )
     const thumbSize = this.thumbSize;
     const offset =
@@ -62,9 +70,9 @@ class AdaptiveScrollBar extends React.PureComponent<Props> {
     const scroll =
       targetThumbTopOffset < 0
         ? 0
-        : targetThumbTopOffset + thumbSize > viewportSize
-        ? ((viewportSize - thumbSize) / viewportSize) * contentSize
-        : (targetThumbTopOffset / viewportSize) * contentSize;
+        : targetThumbTopOffset + thumbSize > barSize
+        ? ((barSize - thumbSize) / barSize) * contentSize
+        : (targetThumbTopOffset / barSize) * contentSize;
     onScroll(scroll);
   }
 
@@ -106,7 +114,7 @@ class AdaptiveScrollBar extends React.PureComponent<Props> {
 
   getScrollByOffset(offset: number) {
     const thumbSize = this.thumbSize;
-    const { viewportSize: barSize, contentSize } = this.props;
+    const { barSize, contentSize } = this.props;
     return this.thumbOffset0 + offset < 0
       ? 0
       : this.thumbOffset0 + thumbSize + offset > barSize
@@ -116,35 +124,35 @@ class AdaptiveScrollBar extends React.PureComponent<Props> {
 
   get barStyle() {
     const props = this.props;
-    const { direction, barWidth, viewportSize } = props;
+    const { direction, barWidth, barSize } = props;
     return direction === "h"
       ? {
           position: "absolute" as any,
           ...props.barStyle,
           height: barWidth,
-          width: viewportSize,
+          width: barSize,
           overflow: "hidden"
         }
       : {
           position: "absolute" as any,
           ...props.barStyle,
           width: barWidth,
-          height: viewportSize,
+          height: barSize,
           overflow: "hidden"
         };
   }
 
   get thumbSize() {
-    const { contentSize, viewportSize, scrollSize } = this.props;
-    return Math.min((viewportSize / contentSize) * viewportSize, viewportSize);
+    const { contentSize, viewportSize, scrollSize, barSize } = this.props;
+    return Math.min((viewportSize / contentSize) * barSize, barSize);
   }
 
   get thumbOffset() {
-    const { contentSize, viewportSize, scrollSize } = this.props;
+    const { contentSize, viewportSize, scrollSize, barSize } = this.props;
     const thumbSize = this.thumbSize;
     return scrollSize >= contentSize - viewportSize
-      ? viewportSize - thumbSize
-      : Math.max((scrollSize / contentSize) * viewportSize, 0); // 防止负数scrollSize让滚动条溢出
+      ? barSize - thumbSize
+      : Math.max((scrollSize / contentSize) * barSize, 0); // 防止负数scrollSize让滚动条溢出
   }
 
   get thumbStyle() {

@@ -34,6 +34,7 @@ interface Props {
  */
 class AdaptiveScrollBar extends React.PureComponent<Props> {
   ref: React.RefObject<HTMLDivElement> = React.createRef();
+  dragStarted = false;
 
   constructor(props: Props) {
     super(props);
@@ -83,13 +84,15 @@ class AdaptiveScrollBar extends React.PureComponent<Props> {
     const event = e.nativeEvent;
     // 先保证点击bar时, thumb移到鼠标下方, 实现连续操作
     this.centerBar(event);
+    document.body.addEventListener("mousemove", this.handleMouseMove);
+    document.body.addEventListener("mouseup", this.handleMouseUp);
 
     setTimeout(() => {
       this.moveFrom =
         this.props.direction === "h" ? event.clientX : event.clientY;
       this.thumbOffset0 = this.thumbOffset;
-      document.body.addEventListener("mousemove", this.handleMouseMove);
-      document.body.addEventListener("mouseup", this.handleMouseUp);
+      // 不可或缺, setTimeout的影响
+      this.dragStarted = true;
     });
   }
 
@@ -98,13 +101,17 @@ class AdaptiveScrollBar extends React.PureComponent<Props> {
   }
 
   handleMouseUp(e: any) {
+    console.log("handleMouseUp");
     this.tryNotify(e.clientX, e.clientY);
 
     document.body.removeEventListener("mousemove", this.handleMouseMove);
     document.body.removeEventListener("mouseup", this.handleMouseUp);
+    this.dragStarted = false;
   }
 
   tryNotify(clientX: number, clientY: number) {
+    if (!this.dragStarted) return;
+
     const { direction } = this.props;
     const offset =
       direction === "h" ? clientX - this.moveFrom : clientY - this.moveFrom;

@@ -23,6 +23,8 @@ interface Props {
   visibleOn: "always" | "needed";
   // 当点击bar或拖拽thumb时, 对应的新的scroll
   onScroll: (scrollSize: number) => void;
+  // 附加的类名
+  className?: string;
   // 当拖动滚动条时, throttle时间, 免得一直发通知影响性能
   delay?: number;
 }
@@ -186,13 +188,18 @@ class AdaptiveScrollBar extends React.PureComponent<Props> {
 
   render() {
     const props = this.props;
-    const { contentSize, viewportSize, visibleOn } = props;
+    const { contentSize, viewportSize, visibleOn, className } = props;
     if (contentSize <= viewportSize && visibleOn === "needed") return null;
 
     const barStyle = this.barStyle;
     const thumbStyle = this.thumbStyle;
     return (
-      <div ref={this.ref} style={barStyle} onMouseDown={this.handleMouseDown}>
+      <div
+        ref={this.ref}
+        style={barStyle}
+        onMouseDown={this.handleMouseDown}
+        className={className}
+      >
         <div style={thumbStyle}></div>
       </div>
     );

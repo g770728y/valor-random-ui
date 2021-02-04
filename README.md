@@ -26,6 +26,16 @@ npm install --save valor-random-ui
 
 -
 
+## 版本
+
+### V1.0.0
+
+适配 antd 3.x
+
+### master
+
+适配 antd 4.x
+
 ## License
 
 MIT © [g770728y](https://github.com/g770728y)

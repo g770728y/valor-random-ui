@@ -1,6 +1,7 @@
 import * as React from "react";
 import { PromisifyModalProps } from "react-promisify-modal";
-import { Modal, Table, Button, Divider, Icon } from "antd";
+import { Modal, Table, Button, Divider } from "antd";
+import { EditOutlined } from "@ant-design/icons";
 import { download, openFiles, file2DataURL, nextId } from "valor-app-utils";
 import * as R from "rambda";
 import { dropIndex } from "valor-app-utils/dist/array";
@@ -147,7 +148,7 @@ const FileUploadDialog: React.FC<Props> = props => {
                   }
                 }}
               >
-                <Icon type="edit" />
+                <EditOutlined />
               </a>
             )}
           </>

@@ -23,23 +23,29 @@
     "sb": "start-storybook -p 9006"
   },
   "dependencies": {
-    "@ant-design/icons": "4.0.0",
     "antd": "^4.0.0",
-    "rambda": "^4.4.0",
-    "rambdax": "^3.5.0",
-    "react-promisify-modal": "^1.0.1"
+    "classnames": "^2.2.6",
+    "rambda": "^6.5.3",
+    "rambdax": "^7.2.0",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "react-icons": "^4.1.0",
+    "react-promisify-modal": "^1.0.1",
+    "valor-app-utils": "^1.0.70"
   },
   "peerDependencies": {
     "antd": "^4.0.0",
     "prop-types": "^15.5.4",
-    "rambda": "^4.4.0",
+    "rambda": "^6.5.3",
+    "rambdax": "^7.2.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
-    "react-icons": "^3.7.0",
+    "react-icons": "^4.1.0",
     "react-promisify-modal": "^1.0.1",
     "valor-app-utils": "^1.0.70"
   },
   "devDependencies": {
+    "@types/classnames": "^2.2.11",
     "@storybook/react": "^5.1.9",
     "@svgr/rollup": "^2.4.1",
     "@types/jest": "^23.1.5",

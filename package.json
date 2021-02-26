@@ -1,6 +1,6 @@
 {
   "name": "valor-random-ui",
-  "version": "2.0.0",
+  "version": "2.0.2",
   "description": "工作中写的 不成体系 的ui组件, 有少量复用机会",
   "author": "g770728y",
   "license": "MIT",
@@ -31,7 +31,7 @@
     "react-dom": "^16.9.0",
     "react-icons": "^4.1.0",
     "react-promisify-modal": "^1.0.1",
-    "valor-app-utils": "^1.0.70"
+    "valor-app-utils": "^2.0.0"
   },
   "peerDependencies": {
     "antd": "^4.0.0",
@@ -42,7 +42,7 @@
     "react-dom": "^16.0.0",
     "react-icons": "^4.1.0",
     "react-promisify-modal": "^1.0.1",
-    "valor-app-utils": "^1.0.70"
+    "valor-app-utils": "^2.0.0"
   },
   "devDependencies": {
     "@types/classnames": "^2.2.11",
@@ -70,7 +70,7 @@
     "rollup-plugin-typescript2": "^0.17.0",
     "rollup-plugin-url": "^1.4.0",
     "typescript": "^3.5.2",
-    "valor-app-utils": "^1.0.0"
+    "valor-app-utils": "^2.0.0"
   },
   "files": [
     "/dist"

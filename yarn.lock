@@ -13925,10 +13925,10 @@ validate-npm-package-license@^3.0.1:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
 
-valor-app-utils@^1.0.70:
-  version "1.0.72"
-  resolved "https://registry.npm.taobao.org/valor-app-utils/download/valor-app-utils-1.0.72.tgz#1a26a9775ceb1b38c8e13ab3564eefebfbf96805"
-  integrity sha1-Giapd1zrGzjI4TqzVk7v6/v5aAU=
+valor-app-utils@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.npm.taobao.org/valor-app-utils/download/valor-app-utils-2.0.0.tgz?cache=0&sync_timestamp=1614337994618&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fvalor-app-utils%2Fdownload%2Fvalor-app-utils-2.0.0.tgz#bc83661622e32a069c4040113a5e954c9321490b"
+  integrity sha1-vINmFiLjKgacQEAROl6VTJMhSQs=
   dependencies:
     dayjs "^1.8.15"
 

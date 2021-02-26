@@ -1,12 +1,12 @@
-import * as React from 'react';
-import './index.css';
-import { TreeNode } from './index.interface';
-import { isLeaf, getHiddenIdsForCollapsed } from './helpers/common';
-import { FlatTreeHelper } from './helpers';
-import { IoMdArrowDropright, IoMdArrowDropdown } from 'react-icons/io';
-import { Center } from '../layout';
-import * as R from 'rambda';
-import classnames from 'classnames';
+import * as React from "react";
+import "./index.css";
+import { TreeNode } from "./index.interface";
+import { isLeaf, getHiddenIdsForCollapsed } from "./helpers/common";
+import { FlatTreeHelper } from "./helpers";
+import { IoMdArrowDropright, IoMdArrowDropdown } from "react-icons/io";
+import { Center } from "../layout";
+import * as R from "rambdax";
+import classnames from "classnames";
 
 type FlatTreeNodeProps = {
   ActionComponent?: React.FC<{ id: any }>;
@@ -42,19 +42,19 @@ const FlatTreeNode_: React.FC<FlatTreeNodeProps> = _props => {
   const isReadonly = !!(readonly || data.readonly);
   const props = {
     style: {
-      position: 'absolute',
+      position: "absolute",
       left: `${data.level - 1}em`,
-      cursor: 'pointer'
+      cursor: "pointer"
     } as React.CSSProperties,
     width: 16,
-    height: '100%',
+    height: "100%",
     inline: true
   };
   return (
     <div
       id={`catalog_${data.id}`}
       className={`valor-flat-tree-item ${
-        isSelected ? 'valor-flat-tree-item-selected' : ''
+        isSelected ? "valor-flat-tree-item-selected" : ""
       }`}
       key={data.id}
       style={{
@@ -75,14 +75,14 @@ const FlatTreeNode_: React.FC<FlatTreeNodeProps> = _props => {
         </Center>
       )}
       <div
-        className={classnames('valor-flat-tree-item-content', {
-          'flat-tree-item-readonly': isReadonly
+        className={classnames("valor-flat-tree-item-content", {
+          "flat-tree-item-readonly": isReadonly
         })}
       >
         {data.content}
       </div>
       {!isReadonly && isSelected && hovered && ActionComponent && (
-        <div className={'valor-action-container'}>
+        <div className={"valor-action-container"}>
           <ActionComponent id={data.id} />
         </div>
       )}
@@ -91,7 +91,7 @@ const FlatTreeNode_: React.FC<FlatTreeNodeProps> = _props => {
 };
 
 function compareFn(prevProps: FlatTreeNodeProps, nextProps: FlatTreeNodeProps) {
-  const p = R.pick(['data', 'isLeaf', 'isSelected', 'isCollapsed']);
+  const p = R.pick(["data", "isLeaf", "isSelected", "isCollapsed"]);
   return R.equals(p(prevProps), p(nextProps));
 }
 
@@ -138,7 +138,7 @@ const FlatTree: React.FC<FlatTreeProps> = ({
       />
     );
   });
-  return <div className={'valor-flat-tree'}>{items}</div>;
+  return <div className={"valor-flat-tree"}>{items}</div>;
 };
 
 export default FlatTree;

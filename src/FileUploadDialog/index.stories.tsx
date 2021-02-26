@@ -3,7 +3,7 @@ import { storiesOf } from "@storybook/react";
 import "antd/dist/antd.css";
 import FileUploadDialog from ".";
 import { Button } from "antd";
-import * as R from "rambda";
+import * as R from "rambdax";
 import { nextId } from "valor-app-utils";
 
 const FileUploadDialogTest = () => {

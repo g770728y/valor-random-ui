@@ -3,7 +3,7 @@ import { PromisifyModalProps } from "react-promisify-modal";
 import { Modal, Table, Button, Divider } from "antd";
 import { EditOutlined } from "@ant-design/icons";
 import { download, openFiles, file2DataURL, nextId } from "valor-app-utils";
-import * as R from "rambda";
+import * as R from "rambdax";
 import { dropIndex } from "valor-app-utils/dist/array";
 
 export type IFileUploadItemStatus = "staled" | "added" | "updated" | "deleted";
@@ -40,7 +40,7 @@ interface Props extends PromisifyModalProps<any> {
   mode: "view" | "edit";
 }
 
-const FileUploadDialog: React.FC<Props> = (props) => {
+const FileUploadDialog: React.FC<Props> = props => {
   const {
     title = "上传管理",
     staticRoot = "/",
@@ -49,19 +49,19 @@ const FileUploadDialog: React.FC<Props> = (props) => {
     onUpload,
     onOk,
     onCancel,
-    show,
+    show
   } = props;
 
   const [items, setItems] = React.useState<IFileUploadItem[]>(
-    fileItems.map((it) => ({
+    fileItems.map(it => ({
       ...it,
       id: it.id || `temp:${nextId()}`,
-      status: "staled",
+      status: "staled"
     }))
   );
 
   const renameItem = (id: string | number, newName: string) => {
-    const idx = items.findIndex((it) => it.id === id);
+    const idx = items.findIndex(it => it.id === id);
     setItems(
       R.update(
         idx,
@@ -75,9 +75,9 @@ const FileUploadDialog: React.FC<Props> = (props) => {
     id: string | number,
     newStatus: IFileUploadItemStatus
   ) => {
-    const idx = items.findIndex((it) => it.id === id);
+    const idx = items.findIndex(it => it.id === id);
     if (!items[idx].data || R.isNil(items[idx].data.id)) {
-      setItems((items) => dropIndex(items, idx));
+      setItems(items => dropIndex(items, idx));
     } else {
       setItems(
         R.update(idx, { ...items[idx], status: newStatus }, items) as any
@@ -93,48 +93,48 @@ const FileUploadDialog: React.FC<Props> = (props) => {
   const openAndUpload = () => {
     let files: File[];
     return openFiles("")
-      .then((_files) => {
+      .then(_files => {
         files = _files;
         return Promise.all(files.map(file2DataURL));
       })
-      .then((dataUris) =>
+      .then(dataUris =>
         onUpload(
           dataUris,
-          files.map((it) => it.name)
+          files.map(it => it.name)
         )
       )
-      .then((_items) =>
-        _items.map((it) => ({
+      .then(_items =>
+        _items.map(it => ({
           ...it,
-          status: "staled" as IFileUploadItemStatus,
+          status: "staled" as IFileUploadItemStatus
         }))
       );
   };
 
   const createFiles = () => {
-    return openAndUpload().then((_items) =>
-      setItems((items) => [
-        ..._items.map((it) => ({
+    return openAndUpload().then(_items =>
+      setItems(items => [
+        ..._items.map(it => ({
           ...it,
           id: `temp:${nextId()}`,
-          status: "added" as any,
+          status: "added" as any
         })),
-        ...items,
+        ...items
       ])
     );
   };
 
   const replaceFile = (id: number | string) => {
-    return openAndUpload().then((_items) =>
-      setItems((items) => {
-        const idx = items.findIndex((it) => it.id === id);
+    return openAndUpload().then(_items =>
+      setItems(items => {
+        const idx = items.findIndex(it => it.id === id);
         return R.update(
           idx,
           {
             ...items[idx],
             name: _items[0].name,
             url: _items[0].url,
-            status: "updated",
+            status: "updated"
           },
           items
         ) as any;
@@ -167,7 +167,7 @@ const FileUploadDialog: React.FC<Props> = (props) => {
             )}
           </>
         );
-      },
+      }
     },
     {
       title: "状态",
@@ -178,10 +178,10 @@ const FileUploadDialog: React.FC<Props> = (props) => {
           staled: "-",
           updated: "已改动",
           added: "新增",
-          deleted: "已删除",
+          deleted: "已删除"
         };
         return statusMap[record.status!];
-      },
+      }
     },
     {
       title: "操作",
@@ -228,8 +228,8 @@ const FileUploadDialog: React.FC<Props> = (props) => {
             </a>
           </>
         );
-      },
-    },
+      }
+    }
   ];
 
   // 注意: 规避 先添加 再 修改 ( 本质上是添加 , 但会判断成 修改 找不到id ) 等情形
@@ -285,7 +285,7 @@ const FileUploadDialog: React.FC<Props> = (props) => {
         dataSource={items}
         pagination={false}
         scroll={{
-          y: 500 /*, scrollToFirstRowOnChange: true, antd 3.24后才支持*/,
+          y: 500 /*, scrollToFirstRowOnChange: true, antd 3.24后才支持*/
         }}
       />
     </Modal>

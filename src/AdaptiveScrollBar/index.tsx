@@ -1,6 +1,6 @@
 import * as React from "react";
 import { getOffsetTo } from "valor-app-utils";
-import * as Rx from "rambdax";
+import * as R from "rambdax";
 
 interface Props {
   // h为水平滚动条, v为竖直滚动条
@@ -42,7 +42,7 @@ class AdaptiveScrollBar extends React.PureComponent<Props> {
     super(props);
     this.centerBar = this.centerBar.bind(this);
     this.handleMouseDown = this.handleMouseDown.bind(this);
-    this.handleMouseMove = Rx.throttle(
+    this.handleMouseMove = R.throttle(
       this.handleMouseMove.bind(this),
       props.delay || 100
     );

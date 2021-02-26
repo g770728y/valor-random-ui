@@ -1,6 +1,6 @@
 {
   "name": "valor-random-ui",
-  "version": "2.0.2",
+  "version": "2.0.4",
   "description": "工作中写的 不成体系 的ui组件, 有少量复用机会",
   "author": "g770728y",
   "license": "MIT",
@@ -17,32 +17,28 @@
     "test:watch": "react-scripts-ts test --env=jsdom",
     "build": "rm -rf ./dist && rollup -c",
     "start": "rollup -c -w",
-    "prepare": "yarn run build",
-    "predeploy": "cd example && yarn install && yarn run build",
     "deploy": "gh-pages -d example/build",
     "sb": "start-storybook -p 9006"
   },
   "dependencies": {
     "antd": "^4.0.0",
     "classnames": "^2.2.6",
-    "rambda": "^6.5.3",
     "rambdax": "^7.2.0",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-icons": "^4.1.0",
     "react-promisify-modal": "^1.0.1",
-    "valor-app-utils": "^2.0.0"
+    "valor-app-utils": "^2.0.1"
   },
   "peerDependencies": {
     "antd": "^4.0.0",
     "prop-types": "^15.5.4",
-    "rambda": "^6.5.3",
     "rambdax": "^7.2.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-icons": "^4.1.0",
     "react-promisify-modal": "^1.0.1",
-    "valor-app-utils": "^2.0.0"
+    "valor-app-utils": "^2.0.1"
   },
   "devDependencies": {
     "@types/classnames": "^2.2.11",
@@ -69,8 +65,8 @@
     "rollup-plugin-postcss": "^1.6.2",
     "rollup-plugin-typescript2": "^0.17.0",
     "rollup-plugin-url": "^1.4.0",
-    "typescript": "^3.5.2",
-    "valor-app-utils": "^2.0.0"
+    "typescript": "^4.1.0",
+    "valor-app-utils": "^2.0.1"
   },
   "files": [
     "/dist"

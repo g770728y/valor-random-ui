@@ -1,6 +1,6 @@
-import * as R from 'rambda';
-import { TreeNode } from '../index.interface';
-import { findIndexFrom } from 'valor-app-utils';
+import * as R from "rambdax";
+import { TreeNode } from "../index.interface";
+import { findIndexFrom } from "valor-app-utils";
 
 export function isLeaf(data: TreeNode[], id: any) {
   const idx = data.findIndex(node => node.id === id);

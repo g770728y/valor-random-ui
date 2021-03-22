@@ -7,6 +7,7 @@ import { IoMdArrowDropright, IoMdArrowDropdown } from "react-icons/io";
 import { Center } from "../layout";
 import * as R from "rambdax";
 import classnames from "classnames";
+import { dissoc } from "valor-app-utils";
 
 type FlatTreeNodeProps = {
   ActionComponent?: React.FC<{ id: any }>;
@@ -50,6 +51,13 @@ const FlatTreeNode_: React.FC<FlatTreeNodeProps> = _props => {
     height: "100%",
     inline: true
   };
+  let content: any;
+  if ((typeof data.content).toLowerCase() === "function") {
+    const C = data.content as any;
+    content = <C {...dissoc(data, "content")} />;
+  } else {
+    content = data.content;
+  }
   return (
     <div
       id={`catalog_${data.id}`}
@@ -79,7 +87,7 @@ const FlatTreeNode_: React.FC<FlatTreeNodeProps> = _props => {
           "flat-tree-item-readonly": isReadonly
         })}
       >
-        {data.content}
+        {content}
       </div>
       {!isReadonly && isSelected && hovered && ActionComponent && (
         <div className={"valor-action-container"}>
@@ -99,7 +107,7 @@ const FlatTreeNode = React.memo(FlatTreeNode_, compareFn);
 
 interface FlatTreeProps {
   ActionComponent: React.FC<{ id: any }>;
-  data: { id: any; level: number; content: string }[];
+  data: TreeNode[];
   collapsedIds: any[];
   selectedId?: any;
   onSelect: (id: any) => void;

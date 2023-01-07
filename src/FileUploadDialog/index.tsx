@@ -205,7 +205,7 @@ const FileUploadDialog: React.FC<Props> = props => {
                 download(
                   `${staticRoot.endsWith("/") ? staticRoot : staticRoot + "/"}${
                     record.url
-                  }`
+                  }`, record.name
                 );
               }}
             >

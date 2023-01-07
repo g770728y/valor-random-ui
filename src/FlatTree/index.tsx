@@ -92,7 +92,7 @@ const FlatTreeNode_: React.FC<FlatTreeNodeProps> = _props => {
 
 function compareFn(prevProps: FlatTreeNodeProps, nextProps: FlatTreeNodeProps) {
   const p = R.pick(['data', 'isLeaf', 'isSelected', 'isCollapsed']);
-  return R.equals(p(prevProps), p(nextProps));
+  return R.equals(p(prevProps as any), p(nextProps as any));
 }
 
 const FlatTreeNode = React.memo(FlatTreeNode_, compareFn);
